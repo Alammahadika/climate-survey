@@ -1,4 +1,5 @@
 # Climate Change in the Indonesian Mind 
+This repository is created as part of the selection process for the **Researcher Assosiate** position at [Communication for Change (C4C)](https://communicationforchange.id)
 Analyzing gender differences in climate risk perception using the C4C–Yale National Survey on “Climate Change in the Indonesian Mind”
 
 Repository link to dataset source:  
