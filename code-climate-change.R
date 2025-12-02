@@ -1,0 +1,106 @@
+# ============================
+# 1. DATA PREPARATION
+# ============================
+
+library(tidyverse)
+
+# Select only gender (S27) and global warming timing (Q14)
+df <- Perubahan_iklim_Narrative_mapping_Survey_Raw_data %>%
+  select(S27, Q14) %>%
+  mutate(
+    gender = recode(S27,
+                    `1` = "Male",
+                    `2` = "Female"),
+    q14_label = recode(Q14,
+                       `1` = "Already harming",
+                       `2` = "In 10 years",
+                       `3` = "In 25 years",
+                       `4` = "In 50 years",
+                       `5` = "In 100 years",
+                       `6` = "Never",
+                       `7` = "No answer",
+                       .default = NA_character_)
+  ) %>%
+  drop_na(gender, q14_label)
+
+# Count percentages within each gender
+plot_df <- df %>%
+  count(gender, q14_label) %>%
+  group_by(gender) %>%
+  mutate(pct = n / sum(n) * 100) %>%
+  ungroup()
+
+# Calculate total % per category to define ordering
+order_df <- plot_df %>%
+  group_by(q14_label) %>%
+  summarise(total_pct = sum(pct)) %>%
+  arrange(desc(total_pct))
+
+# Apply reversed ordering for visualization
+plot_df$q14_label <- factor(
+  plot_df$q14_label,
+  levels = rev(order_df$q14_label)
+)
+
+
+# ============================
+# 2. VISUALIZATION
+# ============================
+
+ggplot(plot_df, aes(x = pct, y = q14_label, fill = gender)) +
+  
+  geom_bar(
+    data = subset(plot_df, gender == "Male"),
+    stat = "identity",
+    width = 0.5
+  ) +
+  geom_bar(
+    data = subset(plot_df, gender == "Female"),
+    aes(x = -pct),
+    stat = "identity",
+    width = 0.5
+  ) +
+  
+  geom_text(
+    data = subset(plot_df, gender == "Male"),
+    aes(label = paste0(round(pct, 1), "%")),
+    hjust = -0.5,
+    size = 3.5,
+    color = "black",
+    fontface = "bold"
+  ) +
+  geom_text(
+    data = subset(plot_df, gender == "Female"),
+    aes(x = -pct, label = paste0(round(pct, 1), "%")),
+    hjust = 1.5,
+    size = 3.5,
+    color = "black",
+    fontface = "bold"
+  ) +
+  
+  scale_fill_manual(values = c("Female" = "darkblue", "Male" = "darkred")) +
+  labs(
+    title = "When Will Global Warming Start Harming People in Indonesia?",
+    subtitle = "Gender-Disaggregated Perception (Reversed Order by Total %)",
+    x = NULL,
+    y = NULL,
+    fill = "Gender",
+    caption = "C4C, Yale & Kantar Indonesia (2025)"
+  ) +
+  
+  scale_x_continuous(
+    labels = NULL,
+    breaks = NULL,
+    limits = max(plot_df$pct) * c(-1.3, 1.3)
+  ) +
+  
+  theme_bw() +
+  theme(
+    legend.position = "top",
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    axis.line = element_blank(),
+    axis.text.y = element_text(face = "bold"),
+    plot.title = element_text(face = "bold")
+  )
+
