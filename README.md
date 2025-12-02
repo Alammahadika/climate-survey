@@ -20,6 +20,7 @@ The goal is to explore how men and women differ in their temporal estimations of
 ---
 
 ## Key Findings
+![visualisasi hasil](/visual-data.png)
 
 ### 1. High “No Answer” Responses (31%–35%)
 A striking proportion of respondents selected **“No Answer”**.  
