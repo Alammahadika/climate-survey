@@ -1,4 +1,4 @@
-# 🌏 Climate-Survey  
+# Climate Change in the Indonesian Mind
 Analyzing gender differences in climate risk perception using the C4C–Yale National Survey on “Climate Change in the Indonesian Mind”
 
 Repository link to dataset source:  
@@ -6,7 +6,7 @@ https://labnarasi.id/topik/perubahan-iklim-dalam-pikiran-masyarakat-indonesia-2/
 
 ---
 
-## 📌 Overview
+## Overview
 
 This repository contains the analysis and visualization of Indonesian public perceptions regarding **when global warming will begin to harm people**.  
 The analysis focuses specifically on **gender-disaggregated patterns**, using:
@@ -19,7 +19,7 @@ The goal is to explore how men and women differ in their temporal estimations of
 
 ---
 
-## 📊 Key Findings
+## Key Findings
 
 ### 1. High “No Answer” Responses (31%–35%)
 A striking proportion of respondents selected **“No Answer”**.  
@@ -44,7 +44,7 @@ In contrast, men are more likely to offer definitive estimates under uncertainty
 
 ---
 
-## 🧪 Code for Visualization (R)
+## Code for Visualization (R)
 
 ```r
 # ============================
